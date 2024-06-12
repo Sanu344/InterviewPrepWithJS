@@ -104,6 +104,13 @@ class BinarySearchTree {
     return node;
   }
 
+  inorderPredessor(pN) {
+    while (pN.right) {
+      pN = pN.right;
+    }
+    return pN;
+  }
+
   inorderSuccesor(pN) {
     while (pN.left) {
       pN = pN.left;
