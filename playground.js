@@ -37,50 +37,50 @@ class BinarySearchTree {
     }
   }
 
-  // delete(key) {
-  //   if (this.root === null) return;
-  //   let inLoop = true;
-  //   let presentNode = this.root;
-  //   let prevNode;
-  //   let direction;
-  //   while (inLoop) {
-  //     if (presentNode.key === key) {
-  //       if (presentNode.right === null && presentNode.left === null) {
-  //         if (direction) prevNode.right = null;
-  //         else prevNode.left = null;
-  //         inLoop = false;
-  //       } else if (presentNode.right !== null && presentNode.left === null) {
-  //         if (direction) prevNode.right = presentNode.right;
-  //         else prevNode.left = presentNode.right;
-  //         inLoop = false;
-  //       } else if (presentNode.right === null && presentNode.left !== null) {
-  //         if (direction) prevNode.right = presentNode.left;
-  //         else prevNode.left = presentNode.left;
-  //         inLoop = false;
-  //       } else {
-  //         let successor = this.inorderSuccesor(presentNode.right);
-  //         presentNode.key = successor.key;
-  //         presentNode.right = successor.right;
-  //         presentNode.left = successor.left;
-  //         console.log(presentNode);
-  //         inLoop = false;
-  //       }
-  //     } else {
-  //       if (key > presentNode.key) {
-  //         prevNode = presentNode;
-  //         direction = true;
-  //         presentNode = presentNode.right;
-  //       } else {
-  //         prevNode = presentNode;
-  //         direction = false;
-  //         presentNode = presentNode.left;
-  //       }
-  //     }
-  //   }
-  // }
-
   deleteRecursive(key) {
     this.root = this.recursiveDelete(this.root, key);
+  }
+
+  inorderTraversal() {
+    let result = [];
+    this.inorder(this.root, result);
+    return result;
+  }
+
+  inorder(node, result) {
+    if (node !== null) {
+      this.inorder(node.left, result);
+      result.push(node.key);
+      this.inorder(node.right, result);
+    }
+  }
+
+  preorderTraversal() {
+    let result = [];
+    this.preorder(this.root, result);
+    return result;
+  }
+
+  preorder(node, result) {
+    if (node !== null) {
+      result.push(node.key);
+      this.inorder(node.left, result);
+      this.inorder(node.right, result);
+    }
+  }
+
+  postOrderTraversal() {
+    let result = [];
+    this.postOrder(this.root, result);
+    return result;
+  }
+
+  postOrder() {
+    if (node !== null) {
+      this.inorder(node.left, result);
+      this.inorder(node.right, result);
+      result.push(node.key);
+    }
   }
 
   recursiveDelete(node, key) {

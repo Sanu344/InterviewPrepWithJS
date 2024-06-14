@@ -47,6 +47,15 @@ class LinkedList {
     previous.next = newNode;
   }
 
+  findAdress(data) {
+    let current = this.head;
+    while (current) {
+      if (current.data === data) break;
+      current = current.next;
+    }
+    return current;
+  }
+
   deleteByKey(key) {
     if (this.head.data === key) {
       this.head = this.head.next;
