@@ -83,6 +83,58 @@ class BinarySearchTree {
     }
   }
 
+  depthFirstTraversalLeftFirst() {
+    let stack = [];
+    let value = [];
+    stack.push(this.root);
+    while (stack.length > 0) {
+      let temp = stack.pop();
+      value.push(temp.key);
+      if (temp.right) {
+        stack.push(temp.right);
+      }
+      if (temp.left) {
+        stack.push(temp.left);
+      }
+    }
+    return value;
+  }
+
+  recuesiveDepthFirstRightLast() {
+    let value = [];
+    this.rightLast(this.root, value);
+    return value;
+  }
+
+  rightLast(node, value) {
+    value.push(node.key);
+
+    if (node.left) this.rightLast(node.left, value);
+
+    if (node.right) this.rightLast(node.right, value);
+  }
+
+  depthFirstTraversal() {
+    if (this.root === null) {
+      return; // return a message or empty
+    }
+    const values = [];
+    const stack = [this.root];
+
+    while (stack.length > 0) {
+      const node = stack.pop();
+      values.push(node.key);
+
+      if (node.right !== null) {
+        stack.push(node.right);
+      }
+      if (node.left !== null) {
+        stack.push(node.left);
+      }
+    }
+    return values;
+  }
+
   recursiveDelete(node, key) {
     if (key < node.key) {
       node.left = this.recursiveDelete(node.left, key);
