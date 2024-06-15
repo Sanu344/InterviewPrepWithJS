@@ -41,100 +41,6 @@ class BinarySearchTree {
     this.root = this.recursiveDelete(this.root, key);
   }
 
-  inorderTraversal() {
-    let result = [];
-    this.inorder(this.root, result);
-    return result;
-  }
-
-  inorder(node, result) {
-    if (node !== null) {
-      this.inorder(node.left, result);
-      result.push(node.key);
-      this.inorder(node.right, result);
-    }
-  }
-
-  preorderTraversal() {
-    let result = [];
-    this.preorder(this.root, result);
-    return result;
-  }
-
-  preorder(node, result) {
-    if (node !== null) {
-      result.push(node.key);
-      this.inorder(node.left, result);
-      this.inorder(node.right, result);
-    }
-  }
-
-  postOrderTraversal() {
-    let result = [];
-    this.postOrder(this.root, result);
-    return result;
-  }
-
-  postOrder() {
-    if (node !== null) {
-      this.inorder(node.left, result);
-      this.inorder(node.right, result);
-      result.push(node.key);
-    }
-  }
-
-  depthFirstTraversalLeftFirst() {
-    let stack = [];
-    let value = [];
-    stack.push(this.root);
-    while (stack.length > 0) {
-      let temp = stack.pop();
-      value.push(temp.key);
-      if (temp.right) {
-        stack.push(temp.right);
-      }
-      if (temp.left) {
-        stack.push(temp.left);
-      }
-    }
-    return value;
-  }
-
-  recuesiveDepthFirstRightLast() {
-    let value = [];
-    this.rightLast(this.root, value);
-    return value;
-  }
-
-  rightLast(node, value) {
-    value.push(node.key);
-
-    if (node.left) this.rightLast(node.left, value);
-
-    if (node.right) this.rightLast(node.right, value);
-  }
-
-  depthFirstTraversal() {
-    if (this.root === null) {
-      return; // return a message or empty
-    }
-    const values = [];
-    const stack = [this.root];
-
-    while (stack.length > 0) {
-      const node = stack.pop();
-      values.push(node.key);
-
-      if (node.right !== null) {
-        stack.push(node.right);
-      }
-      if (node.left !== null) {
-        stack.push(node.left);
-      }
-    }
-    return values;
-  }
-
   recursiveDelete(node, key) {
     if (key < node.key) {
       node.left = this.recursiveDelete(node.left, key);
@@ -168,5 +74,158 @@ class BinarySearchTree {
       pN = pN.left;
     }
     return pN;
+  }
+
+  inorder(node, result) {
+    if (node !== null) {
+      this.inorder(node.left, result);
+      result.push(node.key);
+      this.inorder(node.right, result);
+    }
+  }
+
+  inorderTraversal() {
+    let result = [];
+    this.inorder(this.root, result);
+    return result;
+  }
+
+  preorderTraversal() {
+    let result = [];
+    this.preorder(this.root, result);
+    return result;
+  }
+
+  preorder(node, result) {
+    if (node !== null) {
+      result.push(node.key);
+      this.inorder(node.left, result);
+      this.inorder(node.right, result);
+    }
+  }
+
+  postOrderTraversal() {
+    let result = [];
+    this.postOrder(this.root, result);
+    return result;
+  }
+
+  postOrder() {
+    if (node !== null) {
+      this.inorder(node.left, result);
+      this.inorder(node.right, result);
+      result.push(node.key);
+    }
+  }
+
+  depthFirstRightLastTraversal() {
+    let stack = [];
+    let value = [];
+    stack.push(this.root);
+    while (stack.length > 0) {
+      let temp = stack.pop();
+      value.push(temp.key);
+      if (temp.right) {
+        stack.push(temp.right);
+      }
+      if (temp.left) {
+        stack.push(temp.left);
+      }
+    }
+    return value;
+  }
+
+  recuesiveDepthFirstRightLast() {
+    //my own code
+    let value = [];
+    this.rightLast(this.root, value);
+    return value;
+  }
+
+  rightLast(node, value) {
+    //my own code
+    value.push(node.key);
+
+    if (node.left) this.rightLast(node.left, value);
+
+    if (node.right) this.rightLast(node.right, value);
+  }
+
+  depthFirstTraversal() {
+    if (this.root === null) {
+      return;
+    }
+    const values = [];
+    const stack = [this.root];
+
+    while (stack.length > 0) {
+      const node = stack.pop();
+      values.push(node.key);
+
+      if (node.right !== null) {
+        stack.push(node.right);
+      }
+      if (node.left !== null) {
+        stack.push(node.left);
+      }
+    }
+    return values;
+  }
+
+  breadthFirstTraversal() {
+    let value = [];
+    let queue = [this.root];
+    while (queue.length > 0) {
+      let node = queue.shift();
+      value.push(node.key);
+      if (node.left) {
+        queue.push(node.left);
+      }
+      if (node.right) {
+        queue.push(node.right);
+      }
+    }
+  }
+}
+
+class DataQ {
+  constructor(data, next = null, previous = null) {
+    this.data = data;
+    this.next = next;
+    this.previous = previous;
+  }
+}
+class Queue {
+  constructor() {
+    this.out = null;
+    this.head = null;
+  }
+
+  enqueue(data) {
+    const newElement = new DataQ(data);
+    if (!this.head) {
+      this.head = newElement;
+      this.out = newElement;
+    } else {
+      newElement.next = this.head;
+      this.head.previous = newElement;
+      this.head = newElement;
+    }
+  }
+
+  dQueue() {
+    if (!this.head) return;
+
+    if (this.head.next === null && this.head.previous === null) {
+      let temp = this.head.data;
+      this.head = null;
+      this.out = null;
+      return temp;
+    }
+
+    let temp = this.tail.data;
+    this.tail.previous.next = null;
+    this.tail = this.tail.previous;
+    return temp;
   }
 }
