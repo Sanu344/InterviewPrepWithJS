@@ -5,4 +5,3 @@ function recurLength(str) {
     return 1 + recurLength(str.substring(1));
   }
 }
-console.log(recurLength("Hello"));
