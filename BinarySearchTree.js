@@ -43,24 +43,24 @@ class BinarySearchTree {
 
   recursiveDelete(node, key) {
     if (key < node.key) {
-      node.left = this.recursiveDelete(node.left, key);
+      node.left = this.recursiveDelete(node.left, key); // 1
     } else if (key > node.key) {
-      node.right = this.recursiveDelete(node.right, key);
+      node.right = this.recursiveDelete(node.right, key); //2
     } else {
       if (node.left === null && node.right === null) {
-        return null;
+        return null; //3
       } else if (node.right === null && node.left !== null) {
-        return node.left;
+        return node.left;//4
       } else if (node.right !== null && node.left === null) {
-        return node.right;
+        return node.right;//5
       } else {
-        let successor = this.inorderSuccesor(node.right);
-        node.key = successor.key;
-        node.right = this.recursiveDelete(node.right, successor.key);
+        let successor = this.inorderSuccesor(node.right);//6
+        node.key = successor.key;//7
+        node.right = this.recursiveDelete(node.right, successor.key);//8
       }
     }
-    return node;
-  }
+    return node;//9
+  }//end
 
   inorderPredessor(pN) {
     while (pN.right) {
