@@ -1,16 +1,52 @@
 const edges = [
-  ["b", "a"],
-  ["c", "a"],
-  ["b", "c"],
-  ["q", "r"],
-  ["q", "s"],
-  ["q", "t"],
-  ["q", "u"],
+  ["4", "5"],
+  ["5", "6"],
+  ["5", "7"],
+  ["7", "11"],
+  ["7", "12"],
+  ["11", "13"],
+  ["12", "15"],
+  ["15", "13"],
 ];
 
 const graph = directedConvertor(edges);
 console.log(graph);
-console.log(largestIsland(graph));
+console.log(shortestPath(graph, "4", "13"));
+
+function shortestPath(graph, start, des) {
+  const track = {
+    node: start,
+    hops: 0,
+  };
+
+  let visited = new Set();
+  let shortestPath = null;
+  let longestPath = 0;
+  let queue = [track];
+
+  while (queue.length > 0) {
+    const { node, hops } = queue.shift();
+
+    for (let neighbour of graph[node]) {
+      if (!visited.has(neighbour)) {
+        if (neighbour === des) {
+          const pathLength = hops + 1;
+          if (!shortestPath) {
+            shortestPath = pathLength;
+          } else {
+            shortestPath =
+              shortestPath > pathLength ? pathLength : shortestPath;
+            if (longestPath < pathLength) longestPath = pathLength;
+          }
+        } else {
+          visited.add(neighbour);
+          queue.push({ node: neighbour, hops: hops + 1 });
+        }
+      }
+    }
+  }
+  return { shortestPath: shortestPath, longestPath: longestPath };
+}
 
 function directedConvertor(edges) {
   let graph = {};
@@ -26,30 +62,4 @@ function directedConvertor(edges) {
     graph[b].push(a);
   }
   return graph;
-}
-
-function largestIsland(graph) {
-  let visited = new Set();
-  let island = { count: 0, largest: 0 };
-  for (let key in graph) {
-    if (!visited.has(key)) {
-      depthFTRecursive(graph, key, visited, island);
-
-      if (island.largest < island.count) {
-        island.largest = island.count;
-      }
-      island.count = 0;
-    }
-  }
-  return island.largest;
-}
-
-function depthFTRecursive(graph, start, visited, island) {
-  if (!visited.has(start)) {
-    island.count += 1;
-    visited.add(start);
-    for (let neigbour of graph[start]) {
-      depthFTRecursive(graph, neigbour, visited, island);
-    }
-  }
 }
